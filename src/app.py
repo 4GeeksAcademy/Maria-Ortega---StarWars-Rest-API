@@ -116,9 +116,14 @@ def get_single_planet(planet_id):
 
 @app.route('/users/favorites', methods=['GET'])
 def get_user_favorites():
+    print("function")
     user_id = request.headers.get('user_id')
+    print(user_id)
+
     
-    favorites = Favorites.query.filter_by(user_id=user_id).all()
+    # favorites = Favorites.query.filter_by(user_id=user_id).all()
+    favorites = Favorites.query.all()
+    print (favorites)
     return jsonify([fav.serialize() for fav in favorites])
 
 @app.route('/favorite/planet/<int:planet_id>', methods=['POST'])

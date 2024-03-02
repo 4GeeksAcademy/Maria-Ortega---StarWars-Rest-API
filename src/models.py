@@ -13,8 +13,6 @@ favorite_planets = db.Table(
     db.Column("planets_id", db.ForeignKey("planets.id")),
 )
 
-
-
 class User(db.Model):
     __tablename__= "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -82,4 +80,19 @@ class Planets(db.Model):
 
 
             # do not serialize the password, its a security breach
+        }
+    
+class Favorites(db.Model):
+    __tablename__ = "favorites"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
+    people_id = db.Column(db.Integer, db.ForeignKey('characters.id'))
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'planet_id': self.planet_id,
+            'people_id': self.people_id,
         }

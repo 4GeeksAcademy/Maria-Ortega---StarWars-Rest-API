@@ -119,4 +119,6 @@ def delete_favorite_people(people_id):
     favorite = Favorite.query.filter_by(user_id=user_id, character_id=people_id).first()
     if not favorite:
         return jsonify({'message': 'Favorite person not found'}), 404
-    d
+    db.session.delete(favorite)
+    db.session.commit()
+    return jsonify({'message': 'Favorite person deleted successfully'})

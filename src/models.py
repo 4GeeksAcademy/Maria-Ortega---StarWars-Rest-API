@@ -12,11 +12,10 @@ class User(db.Model):
     favorites = relationship("Favorite", backref="user")
 
     def serialize(self):
-        # Adjust this method according to your needs
         return {
             "id": self.id,
-            "email": self.email,
-            # Do not include sensitive information like passwords
+            "email": self.email
+            # Password is intentionally omitted for security reasons
         }
 
 class Characters(db.Model):
@@ -50,11 +49,12 @@ class Planets(db.Model):
         }
 
 class Favorite(db.Model):
-    __tablename__ = "favorites"
+    __tablename__ = 'favorites'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'))
-    character_id = db.Column(db.Integer, db.ForeignKey('characters.id'))
+    planet_id = db.Column(db.Integer, db.ForeignKey('planets.id'), nullable=True)
+    character_id = db.Column(db.Integer, db.ForeignKey('characters.id'), nullable=True)
+
 
     def serialize(self):
         return {
